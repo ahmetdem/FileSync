@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/ahmetdem/github/FileSync/build",
+  "command": "/usr/bin/g++  -isystem /home/ahmetdem/src/vcpkg/installed/x64-linux/include -g -o CMakeFiles/main.dir/main.cc.o -c /home/ahmetdem/github/FileSync/main.cc",
+  "file": "/home/ahmetdem/github/FileSync/main.cc",
+  "output": "CMakeFiles/main.dir/main.cc.o"
+}
+]
