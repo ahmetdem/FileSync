@@ -83,14 +83,14 @@ int watcher()
             
             std::cout << "\n" << std::endl;
 
-            // auto [dest, source] = desOrSourceById( event->7wd );
-            // std::cout << "Destination is: " << dest << std::endl;
-            // std::cout << "Source is: " << source << "\n" << std::endl;
+            auto [dest, source] = desOrSourceById( event->wd );
+            std::cout << "Destination is: " << dest << std::endl;
+            std::cout << "Source is: " << source << "\n" << std::endl;
             
-            // if (event->wd != 1)
-            // {
-            //     sync(source, dest);
-            // }
+            if (event->wd != 1)
+            {
+                sync(source, dest);
+            }
             
 
             /*   Do some other algorithm for directories.  */
