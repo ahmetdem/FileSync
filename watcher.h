@@ -4,9 +4,28 @@
 #include <vector>
 #include "json.h" 
 
+void sync(const std::string& source, const std::string dest ) 
+{
+
+    fs::copy(source, dest, fs::copy_options::update_existing);
+    std::cout << "Sync is successfull! " << std::endl;
+
+    // add an option if the source is a directory
+}
+
+void printBufferContent(const char* buffer, ssize_t bytesRead) {
+    std::cout << "Buffer Content (Hex): ";
+    for (ssize_t i = 0; i < bytesRead; ++i) {
+        std::cout << std::hex << static_cast<int>(buffer[i]) << " ";
+    }
+    std::cout << std::dec << std::endl;
+}
+
+
 int watcher()
 {
     restartPoint:
+
     int fd = inotify_init();
     if (fd == -1) {
         std::cerr << "Error initializing inotify." << std::endl;
@@ -16,9 +35,9 @@ int watcher()
     std::vector<const char*> filesToMonitor = getFiles();
     int numFiles = filesToMonitor.size();
 
-    const uint32_t eventMask = IN_MODIFY | IN_CREATE | IN_DELETE;
+    const uint32_t eventMask = IN_MODIFY | IN_CREATE | IN_DELETE | IN_MOVED_TO;
 
-    std::cout << numFiles << std::endl;
+    std::cout << "Number of files monitoring is: " << numFiles << std::endl;
 
     for (int i = 0; i < numFiles; ++i) {
         const char* file = filesToMonitor[i];
@@ -32,13 +51,16 @@ int watcher()
     }
 
     char buffer[4096];
-    std::string dest {} ;
     while (true) {
-        ssize_t bytesRead = read(fd, buffer, sizeof(buffer));
+
+        ssize_t bytesRead = read(fd, buffer, sizeof(buffer)); // the problem part
+
         if (bytesRead == -1) {
             std::cerr << "Error reading inotify events." << std::endl;
             return 1;
         }
+
+        printBufferContent(buffer, bytesRead);
 
         // Process inotify events (same as before)
         for (char* ptr = buffer; ptr < buffer + bytesRead;) {
@@ -48,6 +70,7 @@ int watcher()
             std::cout << "Event for file: " << event->wd << " ";
 
             if (event->wd == 1) { goto restartPoint; } 
+
             
             if (event->mask & IN_CREATE)
                 std::cout << "created ";
@@ -55,10 +78,22 @@ int watcher()
                 std::cout << "deleted ";
             if (event->mask & IN_MODIFY)
                 std::cout << "modified ";
-            std::cout << std::endl;
+            if (event->mask & IN_MOVED_TO)
+                std::cout << "moved";
+            
+            std::cout << "\n" << std::endl;
 
-            dest = desById( event->wd  );
-            std::cout << "destination is: " << dest << std::endl;
+            // auto [dest, source] = desOrSourceById( event->7wd );
+            // std::cout << "Destination is: " << dest << std::endl;
+            // std::cout << "Source is: " << source << "\n" << std::endl;
+            
+            // if (event->wd != 1)
+            // {
+            //     sync(source, dest);
+            // }
+            
+
+            /*   Do some other algorithm for directories.  */
 
             ptr += sizeof(struct inotify_event) + event->len;
         }

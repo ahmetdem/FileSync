@@ -9,22 +9,7 @@
 		{
 			"destination" : "/home/ahmetdem/github/FileSync/destination",
 			"id" : 2,
-			"source" : "/home/ahmetdem/github/FileSync/source/hey.txt"
-		},
-		{
-			"destination" : "/home/ahmetdem/github/FileSync/destination",
-			"id" : 3,
-			"source" : "/home/ahmetdem/github/FileSync/source/source.txt"
-		},
-		{
-			"destination" : "/home/ahmetdem/github/FileSync/source",
-			"id" : 4,
-			"source" : "/home/ahmetdem/github/FileSync/destination/kaka.txt"
-		},
-		{
-			"destination" : "/home/ahmetdem/github/FileSync/source",
-			"id" : 5,
-			"source" : "/home/ahmetdem/github/FileSync/destination/selam.txt"
+			"source" : "/home/ahmetdem/github/FileSync/source/file1.txt"
 		}
 	]
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <tuple>
 #include <sys/file.h>
 #include <json/json.h>
 
@@ -29,6 +30,7 @@ std::vector<const char*> getFiles() {
 
     // Acquire a shared lock while reading
     if (acquireExclusiveLock(fileDescriptor)) {
+        
         std::ifstream file("../data.json");
         if (file) {
             file >> jsonData;
@@ -96,7 +98,7 @@ void saveNewPair (const std::string& source, const std::string& destination )
     close(fileDescriptor);
 }
 
-std::string desById(const int& targetId) {
+std::tuple<std::string, std::string> desOrSourceById(const int& targetId) {
     int fileDescriptor = open("../data.json", O_RDONLY);
     if (fileDescriptor == -1) {
         throw std::runtime_error("Error opening file for reading.");
@@ -115,11 +117,11 @@ std::string desById(const int& targetId) {
         file.close();
 
         const Json::Value& syncedFilesArray = jsonData["synced_files"];
-        if (targetId < 0 || targetId >= syncedFilesArray.size()) {
+        if (targetId < 0 || targetId > syncedFilesArray.size()) {
             releaseLock(fileDescriptor); // Release the lock before returning
             std::cerr << "Target id does not exist." << std::endl;
             close(fileDescriptor);
-            return ""; // Return an empty string if the target ID doesn't exist
+            return std::make_tuple("", ""); // Return an empty string if the target ID doesn't exist
         }
 
         // Iterate to find the desired ID
@@ -129,7 +131,7 @@ std::string desById(const int& targetId) {
                 // Release the lock before returning
                 releaseLock(fileDescriptor);
                 close(fileDescriptor);
-                return syncedFile["destination"].asString();
+                return std::make_tuple(syncedFile["destination"].asString(), syncedFile["source"].asString());
             }
         }
 
@@ -141,7 +143,7 @@ std::string desById(const int& targetId) {
 
     // Close the file descriptor
     close(fileDescriptor);
-    return "";
+    return std::make_tuple("", "");
 }
 
 
