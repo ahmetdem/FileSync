@@ -1,26 +1,52 @@
 #include "parser.h"
 #include "watcher.h"
 
-void oneWay(const std::string& source, const std::string& destination) {
-
-    if (!fs::exists(source)) { throw std::runtime_error(source + " does not exists."); }
-    else if (!fs::exists(destination)) { throw std::runtime_error(destination + " does not exists."); }
-
-    saveNewPair(source, destination);
+bool isStartsWith(const std::string& str, const std::string& prefix) {
+    return str.rfind(prefix, 0) == 0;
 }
+
+bool isValidFlag(const std::string& arg) {
+    if (!isStartsWith(arg, "-")) return false;
+    if (arg != "-one" && arg != "-two") return false;
+    return true;
+}
+
+
+void savePair(char const *argv[], int& argc) {
+    if (argc != 5) {
+        throw std::runtime_error("Usage: " + std::string(argv[0]) + " <flag> <source> <destination>");
+    }
+    
+    const std::string flag = argv[2];
+    fs::path source = argv[3];
+    fs::path destination = argv[4];
+
+    if (!isValidFlag(flag)) {
+        throw std::runtime_error("Invalid flag. Please use '-one' for one-way sync or '-two' for two-way sync.");
+    }
+
+    if (!fs::exists(source)) {
+        throw std::runtime_error("Source directory '" + source.string() + "' does not exist.");
+    } else if (!fs::exists(destination)) {
+        throw std::runtime_error("Destination directory '" + destination.string() + "' does not exist.");
+    }
+
+    saveNewPair(source, destination, flag);
+}
+
 
 int main(int argc, char const *argv[])
 {
     CommandLineParser parser;
-
-    CommandLineParser::Option oneWayOption {"--oneway", "One Way Sync.", 
-        [&argv]() { oneWay( argv[2], argv[3] ) ; }};
+    
+    CommandLineParser::Option syncOption {"sync", "One Way Sync.", 
+        [&argv, &argc]() { savePair( argv, argc ) ; }};
 
     CommandLineParser::Option monitorOption {"--monitor", "Monitor the files in the data.json", []() {
         watcher();
     }};
 
-    parser.add_custom_option( oneWayOption );
+    parser.add_custom_option( syncOption );
     parser.add_custom_option( monitorOption );
     parser.parse(argc, argv);
 

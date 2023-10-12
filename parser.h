@@ -49,36 +49,17 @@ public:
     void parse(const int argc, const char* argv[]) {
         for (int i = 1; i < argc; ++i) {
 
-            if (!strncmp(argv[i], "-", 1) && strncmp(argv[i], "--", 2))
-            {
+            // if (!strncmp(argv[i], "-", 1) && strncmp(argv[i], "--", 2))
+            // {
 
-                if (std::find_if(sFlags.begin(), sFlags.end(), [&i, &argv](const ShortFlag& flag) 
-                    {return flag.name == argv[i]; }) != sFlags.end()) 
-                {
-                    usedFlags.push_back(FlagFromName(argv[i]));
-
-                } else { throw std::runtime_error("Unidentified Flag(s)."); }
-            }
-        
-            // if (argv[i] == copyOption.name) {
-            //     try
+            //     if (std::find_if(sFlags.begin(), sFlags.end(), [&i, &argv](const ShortFlag& flag) 
+            //         {return flag.name == argv[i]; }) != sFlags.end()) 
             //     {
-            //         from = argv[i+1];
-            //         to = argv[i+2] + stripLastWord(from);
+            //         usedFlags.push_back(FlagFromName(argv[i]));
 
-            //     } catch(const std::exception& e) {std::cerr << e.what() << '\n';}
-
-            //     copyOption.function();
-
-            //     break;
-            // } 
-            // else if ( argv[i][0] != '-' ) 
-            // { 
-            //     std::cout << argv[i] << std::endl;
-            //     OptionFromName(argv[i]).function() ;
-            // }  
-            // else if ( strncmp(argv[i], "--", 2) == 0 )
-            //     OptionFromName(argv[i]).function() ;
+            //     } else { throw std::runtime_error("Unidentified Flag(s)."); }
+            // }
+            
 
             if (argv[i] == copyOption.name)
             {

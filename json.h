@@ -18,6 +18,20 @@ void releaseLock(int fd) {
     flock(fd, LOCK_UN);
 }
 
+// std::string stripLastWord(const std::string& path) {
+    
+//     int index { 0 }; 
+//     for (size_t i = path.size() - 1; i > 0; i--)
+//     {
+//         if (path[i] == '/')
+//         {
+//             index = i;
+//             break;   
+//         }
+//     }
+//     return path.substr(index, path.size());
+// }
+
 // Function to read JSON data from the file
 std::vector<const char*> getFiles() {
     Json::Value jsonData;
@@ -40,7 +54,16 @@ std::vector<const char*> getFiles() {
             int numFiles = syncedFilesArray.size(); // Get the number of files
 
             for (int i = 0; i < numFiles; ++i) {
-                std::string source = syncedFilesArray[i]["source"].asString();
+                
+                /* TODO: Maybe add pointers to avoid string assignment? */
+                const fs::path source = syncedFilesArray[i]["source"].asString();
+
+                if (!syncedFilesArray[i]["way"].asBool())
+                {
+                    const fs::path dest = syncedFilesArray[i]["destination"].asString();
+                    files.push_back(strdup(dest.c_str()));
+                }
+                
                 files.push_back(strdup(source.c_str()));
             }
         }
@@ -55,7 +78,7 @@ std::vector<const char*> getFiles() {
 }
 
 /* Save new pair of ${source} ${destination} to the json file. */
-void saveNewPair (const std::string& source, const std::string& destination ) 
+void saveNewPair (const fs::path& source, const fs::path& destination, const std::string& arg ) 
 {
     int fileDescriptor = open("../data.json", O_WRONLY | O_CREAT, 0666);
     if (fileDescriptor == -1) {
@@ -77,10 +100,17 @@ void saveNewPair (const std::string& source, const std::string& destination )
         const Json::Value& syncedFilesArray = jsonData["synced_files"];
         int id = syncedFilesArray.size(); // Get the number of files
 
+        const fs::path newDes = destination / source.filename();
+
+
+        if (!fs::exists(newDes))
+            fs::copy(source, destination);
+            
         Json::Value newSyncedFile;
-        newSyncedFile["source"] = source;
-        newSyncedFile["destination"] = destination;
+        newSyncedFile["source"] = source.string();
+        newSyncedFile["destination"] = newDes.string();
         newSyncedFile["id"] = id+1;
+        newSyncedFile["way"] = (arg == "-one") ? true : false;
     
         jsonData["synced_files"].append(newSyncedFile);
 
@@ -98,7 +128,7 @@ void saveNewPair (const std::string& source, const std::string& destination )
     close(fileDescriptor);
 }
 
-std::tuple<std::string, std::string> desOrSourceById(const int& targetId) {
+std::tuple<fs::path, fs::path, bool> desOrSourceById(const int& targetId) {
     int fileDescriptor = open("../data.json", O_RDONLY);
     if (fileDescriptor == -1) {
         throw std::runtime_error("Error opening file for reading.");
@@ -121,17 +151,18 @@ std::tuple<std::string, std::string> desOrSourceById(const int& targetId) {
             releaseLock(fileDescriptor); // Release the lock before returning
             std::cerr << "Target id does not exist." << std::endl;
             close(fileDescriptor);
-            return std::make_tuple("", ""); // Return an empty string if the target ID doesn't exist
+            return std::make_tuple("", "", false); // Return an empty string if the target ID doesn't exist
         }
 
         // Iterate to find the desired ID
+        // (?????) Maybe implement Binary Search Here (?????)
         for (const auto& syncedFile : syncedFilesArray) {
             int id = syncedFile["id"].asInt();
             if (id == targetId) {
                 // Release the lock before returning
                 releaseLock(fileDescriptor);
                 close(fileDescriptor);
-                return std::make_tuple(syncedFile["destination"].asString(), syncedFile["source"].asString());
+                return std::make_tuple(syncedFile["destination"].asString(), syncedFile["source"].asString(), syncedFile["way"].asBool());
             }
         }
 
@@ -143,7 +174,7 @@ std::tuple<std::string, std::string> desOrSourceById(const int& targetId) {
 
     // Close the file descriptor
     close(fileDescriptor);
-    return std::make_tuple("", "");
+    return std::make_tuple("", "", false);
 }
 
 

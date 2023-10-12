@@ -68,4 +68,5 @@
         "CMAKE_TOOLCHAIN_FILE": "/home/ahmetdem/src/vcpkg/scripts/buildsystems/vcpkg.cmake"
     },
     "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "cmake.configureOnOpen": true,
 }

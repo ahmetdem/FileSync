@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/home/ahmetdem/github/FileSync/CMakeLists.txt"
-  "CMakeFiles/3.27.6/CMakeCCompiler.cmake"
-  "CMakeFiles/3.27.6/CMakeCXXCompiler.cmake"
-  "CMakeFiles/3.27.6/CMakeSystem.cmake"
+  "CMakeFiles/3.27.7/CMakeCCompiler.cmake"
+  "CMakeFiles/3.27.7/CMakeCXXCompiler.cmake"
+  "CMakeFiles/3.27.7/CMakeSystem.cmake"
   "/home/ahmetdem/src/vcpkg/installed/x64-linux/share/jsoncpp/jsoncpp-namespaced-targets.cmake"
   "/home/ahmetdem/src/vcpkg/installed/x64-linux/share/jsoncpp/jsoncpp-targets-debug.cmake"
   "/home/ahmetdem/src/vcpkg/installed/x64-linux/share/jsoncpp/jsoncpp-targets-release.cmake"

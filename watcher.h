@@ -4,13 +4,17 @@
 #include <vector>
 #include "json.h" 
 
-void sync(const std::string& source, const std::string dest ) 
+void sync(const fs::path& source, const fs::path& dest, const bool& isOneWay) 
 {
-
     fs::copy(source, dest, fs::copy_options::update_existing);
+
+    if (!isOneWay) {
+        std::cout << "hey" << std::endl;
+        fs::copy(dest, source, fs::copy_options::update_existing);
+    }
     std::cout << "Sync is successfull! " << std::endl;
 
-    // add an option if the source is a directory
+    // TODO add an option if the source is a directory
 }
 
 void printBufferContent(const char* buffer, ssize_t bytesRead) {
@@ -41,6 +45,7 @@ int watcher()
 
     for (int i = 0; i < numFiles; ++i) {
         const char* file = filesToMonitor[i];
+
         int wd = inotify_add_watch(fd, file, eventMask);
         if (wd == -1) {
             std::cerr << "Error adding watch to " << file << std::endl;
@@ -60,17 +65,18 @@ int watcher()
             return 1;
         }
 
-        printBufferContent(buffer, bytesRead);
+        // printBufferContent(buffer, bytesRead);
 
-        // Process inotify events (same as before)
+        // Process inotify events
         for (char* ptr = buffer; ptr < buffer + bytesRead;) {
             struct inotify_event* event = reinterpret_cast<struct inotify_event*>(ptr);
 
             // Print event information
-            std::cout << "Event for file: " << event->wd << " ";
+            std::cout << "Event for file: " << event->wd << std::endl;
+            /* FIXME Fix the problem on the id's. The target id becomes greater than the json file id's 
+            because two way sync does not create another json variable. */  
 
             if (event->wd == 1) { goto restartPoint; } 
-
             
             if (event->mask & IN_CREATE)
                 std::cout << "created ";
@@ -83,17 +89,17 @@ int watcher()
             
             std::cout << "\n" << std::endl;
 
-            auto [dest, source] = desOrSourceById( event->wd );
+            auto [dest, source, isOneWay] = desOrSourceById( event->wd );
             std::cout << "Destination is: " << dest << std::endl;
             std::cout << "Source is: " << source << "\n" << std::endl;
             
             if (event->wd != 1)
             {
-                sync(source, dest);
+                sync(source, dest, isOneWay);
             }
             
 
-            /*   Do some other algorithm for directories.  */
+            /*  TODO Do some other algorithm for directories.  */
 
             ptr += sizeof(struct inotify_event) + event->len;
         }
@@ -102,6 +108,7 @@ int watcher()
     // Close the inotify file descriptor
     close(fd);
 
+    // release the memory
     for (const char* filePath : filesToMonitor) {
         free(const_cast<char*>(filePath));
     }
