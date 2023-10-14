@@ -23,7 +23,7 @@ std::vector<const char*> getFiles() {
     Json::Value jsonData;
     std::vector<const char*> files; // Use std::vector to store the file paths
 
-    int fileDescriptor = open("../data.json", O_RDONLY);
+    int fileDescriptor = open("../src/data.json", O_RDONLY);
     if (fileDescriptor == -1) {
         throw std::runtime_error("Error opening file for reading.");
     }
@@ -31,7 +31,7 @@ std::vector<const char*> getFiles() {
     // Acquire a shared lock while reading
     if (acquireExclusiveLock(fileDescriptor)) {
         
-        std::ifstream file("../data.json");
+        std::ifstream file("../src/data.json");
         if (file) {
             file >> jsonData;
             file.close();
@@ -60,14 +60,14 @@ std::vector<const char*> getFiles() {
 /* Save new pair of ${source} ${destination} to the json file. */
 void saveNewPair (const fs::path& source, const fs::path& destination, const std::string& arg ) 
 {
-    int fileDescriptor = open("../data.json", O_WRONLY | O_CREAT, 0666);
+    int fileDescriptor = open("../src/data.json", O_WRONLY | O_CREAT, 0666);
     if (fileDescriptor == -1) {
         std::cerr << "Error opening file for writing." << std::endl;
         return;
     }
     // Open the existing JSON file for reading
 
-    std::ifstream inputFile("../data.json");
+    std::ifstream inputFile("../src/data.json");
     if (!inputFile.is_open()) { throw std::runtime_error("Failed to open the input file.") ; }
 
     if (acquireExclusiveLock(fileDescriptor))
@@ -109,7 +109,7 @@ void saveNewPair (const fs::path& source, const fs::path& destination, const std
         }
 
         // Save the modified JSON data back to the file
-        std::ofstream outputFile("../data.json");
+        std::ofstream outputFile("../src/data.json");
         if (!outputFile.is_open()) { throw std::runtime_error("Failed to open the input file.") ; }
 
         outputFile << jsonData;
@@ -123,7 +123,7 @@ void saveNewPair (const fs::path& source, const fs::path& destination, const std
 }
 
 std::tuple<fs::path, fs::path, bool> desOrSourceById(const int& targetId) {
-    int fileDescriptor = open("../data.json", O_RDONLY);
+    int fileDescriptor = open("../src/data.json", O_RDONLY);
     if (fileDescriptor == -1) {
         throw std::runtime_error("Error opening file for reading.");
     }
@@ -131,7 +131,7 @@ std::tuple<fs::path, fs::path, bool> desOrSourceById(const int& targetId) {
     if (acquireExclusiveLock(fileDescriptor)) {
         Json::Value jsonData;
 
-        std::ifstream file("../data.json");
+        std::ifstream file("../src/data.json");
         if (!file) {
             releaseLock(fileDescriptor); // Release the lock if file open fails
             throw std::runtime_error("Error opening file for reading.");
