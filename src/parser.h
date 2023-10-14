@@ -1,3 +1,6 @@
+#ifndef PARSER_H
+#define PARSER_H
+
 #include <iostream>
 #include <vector>
 #include <functional>
@@ -162,4 +165,6 @@ private:
     std::string from {};
     std::string to {};
 };
+
+#endif // PARSER_H
 

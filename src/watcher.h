@@ -1,3 +1,6 @@
+#ifndef WATCHER_H
+#define WATCHER_H
+
 #include <iostream>
 #include <unistd.h>
 #include <sys/inotify.h>
@@ -134,3 +137,5 @@ int watcher()
 
     return 0;
 }
+
+#endif // WATCHER_H

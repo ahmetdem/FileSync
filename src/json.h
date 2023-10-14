@@ -1,3 +1,6 @@
+#ifndef JSON_H
+#define JSON_H
+
 #include <iostream>
 #include <fstream>
 #include <tuple>
@@ -171,5 +174,6 @@ std::tuple<fs::path, fs::path, bool> desOrSourceById(const int& targetId) {
     return std::make_tuple("", "", false);
 }
 
+#endif // JSON_H
 
 
