@@ -5,12 +5,6 @@
 			"destination" : "/",
 			"id" : 1,
 			"source" : "/home/ahmetdem/github/FileSync/src/data.json"
-		},
-		{
-			"destination" : "/home/ahmetdem/github/FileSync/src/selam.txt",
-			"id" : 2,
-			"source" : "/home/ahmetdem/github/FileSync/selam.txt",
-			"way" : true
 		}
 	]
 }
