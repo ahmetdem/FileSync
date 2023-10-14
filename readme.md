@@ -104,18 +104,18 @@ Example `data.json` format:
 ```json 
 {
     "synced_files": 
-    [
+	[
 		{
 			"destination" : "/",
 			"id" : 1,
 			"source": "/path/to/json/file"
 		},
-	    {
-	        "id": 2,
-	        "source": "/path/to/source/file.txt",
-	        "destination": "/path/to/destination/file.txt"
-	    }
-    ]
+		{
+		"id": 2,
+		"source": "/path/to/source/file.txt",
+		"destination": "/path/to/destination/file.txt"
+		}
+    	]
 }
 ```
 
