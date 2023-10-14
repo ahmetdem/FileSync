@@ -48,10 +48,10 @@ To compile the project, follow these steps:
     The build tool will handle the compilation of both source files (`.cpp`) and header files (`.h` or `.hpp`) as needed.
     
 5.  **Run the Executable**: After a successful build, you'll have an executable file (e.g., `sync_tool`). You can run it using the following command:
-    
-    bashCopy code
-    
-    `./sync_tool`
+   
+   ```bash 
+    ./sync_tool
+```
 
 ## Usage
 
