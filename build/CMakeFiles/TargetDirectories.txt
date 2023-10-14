@@ -1,3 +1,0 @@
-/home/ahmetdem/github/FileSync/build/CMakeFiles/main.dir
-/home/ahmetdem/github/FileSync/build/CMakeFiles/edit_cache.dir
-/home/ahmetdem/github/FileSync/build/CMakeFiles/rebuild_cache.dir

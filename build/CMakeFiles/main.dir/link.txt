@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/main.dir/src/main.cc.o -o main   -L/home/ahmetdem/src/vcpkg/installed/x64-linux/lib  -Wl,-rpath,/home/ahmetdem/src/vcpkg/installed/x64-linux/lib /home/ahmetdem/src/vcpkg/installed/x64-linux/debug/lib/libjsoncpp.a 
