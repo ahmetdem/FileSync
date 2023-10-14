@@ -34,12 +34,13 @@ void savePair(char const *argv[], int& argc) {
     saveNewPair(source, destination, flag);
 }
 
+// TODO Add the daemon support for Monitoring now that all is done.
 
 int main(int argc, char const *argv[])
 {
     CommandLineParser parser;
     
-    CommandLineParser::Option syncOption {"sync", "One Way Sync.", 
+    CommandLineParser::Option syncOption {"sync", " Sync.", 
         [&argv, &argc]() { savePair( argv, argc ) ; }};
 
     CommandLineParser::Option monitorOption {"--monitor", "Monitor the files in the data.json", []() {

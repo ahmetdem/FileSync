@@ -6,7 +6,8 @@ find_package(jsoncpp CONFIG REQUIRED)
 include_directories(/home/ahmetdem/src/vcpkg/installed/x64-linux/include)
 link_directories(/home/ahmetdem/src/vcpkg/installed/x64-linux/lib)
 
-add_executable(main main.cc)
+add_executable(main 
+    src/main.cc)
 
 target_link_libraries(main PRIVATE JsonCpp::JsonCpp)
 

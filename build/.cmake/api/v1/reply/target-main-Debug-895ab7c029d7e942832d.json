@@ -165,7 +165,7 @@
 		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
-			"path" : "main.cc",
+			"path" : "src/main.cc",
 			"sourceGroupIndex" : 0
 		}
 	],

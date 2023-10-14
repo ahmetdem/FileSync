@@ -69,28 +69,28 @@ include CMakeFiles/main.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/main.dir/flags.make
 
-CMakeFiles/main.dir/main.cc.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/main.cc.o: /home/ahmetdem/github/FileSync/main.cc
-CMakeFiles/main.dir/main.cc.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ahmetdem/github/FileSync/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/main.cc.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cc.o -MF CMakeFiles/main.dir/main.cc.o.d -o CMakeFiles/main.dir/main.cc.o -c /home/ahmetdem/github/FileSync/main.cc
+CMakeFiles/main.dir/src/main.cc.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/main.cc.o: /home/ahmetdem/github/FileSync/src/main.cc
+CMakeFiles/main.dir/src/main.cc.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ahmetdem/github/FileSync/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/src/main.cc.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/main.cc.o -MF CMakeFiles/main.dir/src/main.cc.o.d -o CMakeFiles/main.dir/src/main.cc.o -c /home/ahmetdem/github/FileSync/src/main.cc
 
-CMakeFiles/main.dir/main.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/main.cc.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ahmetdem/github/FileSync/main.cc > CMakeFiles/main.dir/main.cc.i
+CMakeFiles/main.dir/src/main.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/main.cc.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ahmetdem/github/FileSync/src/main.cc > CMakeFiles/main.dir/src/main.cc.i
 
-CMakeFiles/main.dir/main.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/main.cc.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ahmetdem/github/FileSync/main.cc -o CMakeFiles/main.dir/main.cc.s
+CMakeFiles/main.dir/src/main.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/main.cc.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ahmetdem/github/FileSync/src/main.cc -o CMakeFiles/main.dir/src/main.cc.s
 
 # Object files for target main
 main_OBJECTS = \
-"CMakeFiles/main.dir/main.cc.o"
+"CMakeFiles/main.dir/src/main.cc.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
-main: CMakeFiles/main.dir/main.cc.o
+main: CMakeFiles/main.dir/src/main.cc.o
 main: CMakeFiles/main.dir/build.make
 main: /home/ahmetdem/src/vcpkg/installed/x64-linux/debug/lib/libjsoncpp.a
 main: CMakeFiles/main.dir/link.txt
