@@ -50,7 +50,7 @@ To compile the project, follow these steps:
 5.  **Run the Executable**: After a successful build, you'll have an executable file (e.g., `sync_tool`). You can run it using the following command:
    
    ```bash 
-    `./sync_tool`
+    ./sync_tool
     ```
 
 ## Usage
