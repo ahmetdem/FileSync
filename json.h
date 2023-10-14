@@ -18,20 +18,6 @@ void releaseLock(int fd) {
     flock(fd, LOCK_UN);
 }
 
-// std::string stripLastWord(const std::string& path) {
-    
-//     int index { 0 }; 
-//     for (size_t i = path.size() - 1; i > 0; i--)
-//     {
-//         if (path[i] == '/')
-//         {
-//             index = i;
-//             break;   
-//         }
-//     }
-//     return path.substr(index, path.size());
-// }
-
 // Function to read JSON data from the file
 std::vector<const char*> getFiles() {
     Json::Value jsonData;
@@ -57,12 +43,6 @@ std::vector<const char*> getFiles() {
                 
                 /* TODO: Maybe add pointers to avoid string assignment? */
                 const fs::path source = syncedFilesArray[i]["source"].asString();
-
-                if (!syncedFilesArray[i]["way"].asBool())
-                {
-                    const fs::path dest = syncedFilesArray[i]["destination"].asString();
-                    files.push_back(strdup(dest.c_str()));
-                }
                 
                 files.push_back(strdup(source.c_str()));
             }
@@ -102,17 +82,31 @@ void saveNewPair (const fs::path& source, const fs::path& destination, const std
 
         const fs::path newDes = destination / source.filename();
 
+        bool isWay { (arg == "-one") ? true : false };
 
         if (!fs::exists(newDes))
             fs::copy(source, destination);
             
         Json::Value newSyncedFile;
+
         newSyncedFile["source"] = source.string();
         newSyncedFile["destination"] = newDes.string();
         newSyncedFile["id"] = id+1;
-        newSyncedFile["way"] = (arg == "-one") ? true : false;
-    
+        newSyncedFile["way"] = isWay;
+
         jsonData["synced_files"].append(newSyncedFile);
+
+        if (!isWay)
+        {
+            Json::Value newSyncedFile2;
+
+            newSyncedFile2["source"] = newDes.string();
+            newSyncedFile2["destination"] = source.string();
+            newSyncedFile2["id"] = id+2;
+            newSyncedFile2["way"] = isWay;
+
+            jsonData["synced_files"].append(newSyncedFile2);
+        }
 
         // Save the modified JSON data back to the file
         std::ofstream outputFile("../data.json");
@@ -155,7 +149,7 @@ std::tuple<fs::path, fs::path, bool> desOrSourceById(const int& targetId) {
         }
 
         // Iterate to find the desired ID
-        // (?????) Maybe implement Binary Search Here (?????)
+        // TODO Maybe implement Binary Search Here
         for (const auto& syncedFile : syncedFilesArray) {
             int id = syncedFile["id"].asInt();
             if (id == targetId) {

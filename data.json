@@ -4,20 +4,7 @@
 		{
 			"destination" : "/",
 			"id" : 1,
-			"source" : "/home/ahmetdem/github/FileSync/data.json",
-			"way" : true
-		},
-		{
-			"destination" : "/home/ahmetdem/github/FileSync/destination/file1.txt",
-			"id" : 2,
-			"source" : "/home/ahmetdem/github/FileSync/source/file1.txt",
-			"way" : true
-		},
-		{
-			"destination" : "/home/ahmetdem/github/FileSync/destination/file2.txt",
-			"id" : 3,
-			"source" : "/home/ahmetdem/github/FileSync/source/file2.txt",
-			"way" : false
+			"source" : "/home/ahmetdem/github/FileSync/data.json"
 		}
 	]
 }

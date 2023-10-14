@@ -6,15 +6,39 @@
 
 void sync(const fs::path& source, const fs::path& dest, const bool& isOneWay) 
 {
-    fs::copy(source, dest, fs::copy_options::update_existing);
+    static bool written = true;
 
-    if (!isOneWay) {
-        std::cout << "hey" << std::endl;
-        fs::copy(dest, source, fs::copy_options::update_existing);
+    // FIXME fix the problem where the directory synced to destination path initally. 
+    if (fs::is_directory(source))
+    {
+        fs::copy(source, dest, fs::copy_options::update_existing | fs::copy_options::recursive);
+        std::cout << "Directory Sync Is Successfull." << std::endl;
+        return;
     }
-    std::cout << "Sync is successfull! " << std::endl;
 
-    // TODO add an option if the source is a directory
+    if (!isOneWay && written) // dest -> source
+    {
+        fs::copy(source, dest, fs::copy_options::update_existing);
+        written = false;
+        std::cout << "Written is (first): " << written << "\n" << std::endl;
+        return;
+
+    } else if (!isOneWay)
+    {
+        written = true;
+        std::cout << "Written is: (second): " << written << "\n" << std::endl;
+        return;
+    }
+    
+
+    fs::copy(source, dest, fs::copy_options::update_existing);
+    std::cout << "Sync is successfull! \n" << std::endl;
+
+    /* FIXME (Seems to be fixed, but could potentially be a problem.)
+    when i make another json object for watching destination, 
+    the program changes source but because it changes source,
+    it also changes destination. Thats an infinite loop. */
+
 }
 
 void printBufferContent(const char* buffer, ssize_t bytesRead) {
@@ -72,34 +96,29 @@ int watcher()
             struct inotify_event* event = reinterpret_cast<struct inotify_event*>(ptr);
 
             // Print event information
-            std::cout << "Event for file: " << event->wd << std::endl;
-            /* FIXME Fix the problem on the id's. The target id becomes greater than the json file id's 
-            because two way sync does not create another json variable. */  
+            std::cout << "Event for file: " << event->wd;
 
             if (event->wd == 1) { goto restartPoint; } 
             
             if (event->mask & IN_CREATE)
-                std::cout << "created ";
+                std::cout << " created \n";
             if (event->mask & IN_DELETE)
-                std::cout << "deleted ";
+                std::cout << " deleted \n";
             if (event->mask & IN_MODIFY)
-                std::cout << "modified ";
+                std::cout << " modified \n";
             if (event->mask & IN_MOVED_TO)
-                std::cout << "moved";
-            
-            std::cout << "\n" << std::endl;
+                std::cout << " moved \n";
 
             auto [dest, source, isOneWay] = desOrSourceById( event->wd );
+            std::cout << "Source is: " << source << std::endl;
             std::cout << "Destination is: " << dest << std::endl;
-            std::cout << "Source is: " << source << "\n" << std::endl;
-            
+
             if (event->wd != 1)
             {
                 sync(source, dest, isOneWay);
             }
-            
 
-            /*  TODO Do some other algorithm for directories.  */
+            /* TODO Fix potential error of files deleted and renamed.*/
 
             ptr += sizeof(struct inotify_event) + event->len;
         }
