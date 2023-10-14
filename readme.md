@@ -51,7 +51,7 @@ To compile the project, follow these steps:
    
    ```bash 
     ./sync_tool
-    ```
+```
 
 ## Usage
 
