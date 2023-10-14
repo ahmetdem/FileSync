@@ -111,9 +111,9 @@ Example `data.json` format:
 			"source": "/path/to/json/file"
 		},
 		{
-		"id": 2,
-		"source": "/path/to/source/file.txt",
-		"destination": "/path/to/destination/file.txt"
+			"id": 2,
+			"source": "/path/to/source/file.txt",
+			"destination": "/path/to/destination/file.txt"
 		}
     	]
 }
