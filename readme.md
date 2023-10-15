@@ -50,7 +50,7 @@ To compile the project, follow these steps:
 5.  **Run the Executable**: After a successful build, you'll have an executable file (e.g., `sync_tool`). You can run it using the following command:
    
    ```bash 
-    ./sync_tool
+    ./main
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ To compile the project, follow these steps:
 To synchronize files, you need to enter the `sync` command followed by a flag, source directory, and destination directory.
 
 ```bash 
-./sync_tool sync <flag> <source> <destination>
+./main sync <flag> <source> <destination>
  ```
 
 -   `<flag>`: Choose either `-one` for one-way sync or `-two` for two-way sync.
@@ -71,7 +71,7 @@ To synchronize files, you need to enter the `sync` command followed by a flag, s
 Example:
 
 ```bash 
-./sync_tool sync -one /path/to/source /path/to/destination
+./main sync -one /path/to/source /path/to/destination
  ```
 
 ### Monitor Files
@@ -79,7 +79,7 @@ Example:
 To monitor files listed in the `data.json` file, simply use the following command:
 
 ```bash 
-./sync_tool --monitor
+./main --monitor
 ```
 
 This will monitor the files specified in the `data.json` file for any changes.
