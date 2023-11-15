@@ -4,7 +4,7 @@
 		{
 			"destination" : "/",
 			"id" : 1,
-			"source" : "/home/ahmetdem/github/FileSync/src/data.json"
+			"source" : "/home/ahmetdem/GitHub/FileSync/src/data.json"
 		}
 	]
 }
